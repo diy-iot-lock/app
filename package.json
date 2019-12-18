@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "@diy-iot-lock/app",
   "version": "0.0.0",
   "description": "",
   "main": "lib/main.js",
@@ -10,6 +10,9 @@
   "scripts": {
     "build": "tsc",
     "lint": "tslint -p tsconfig.json"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "repository": {
     "type": "git",
