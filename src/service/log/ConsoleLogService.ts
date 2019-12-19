@@ -1,4 +1,4 @@
-import {ILogService} from "../interface/ILogService";
+import {ILogService} from "../../interface/ILogService";
 
 export default class ConsoleLogService implements ILogService {
     public error(message: string): any {

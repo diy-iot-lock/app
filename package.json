@@ -2,8 +2,8 @@
   "name": "@diy-iot-lock/app",
   "version": "0.0.0",
   "description": "",
-  "main": "lib/main.js",
-  "types": "lib/main.d.ts",
+  "main": "lib/DIYIoTlockApp.js",
+  "types": "lib/DIYIoTlockApp.d.ts",
   "files": [
     "lib/**/*"
   ],
