@@ -10,6 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
+    - name: Git switch to master branch
+      run: git switch -c master
+    
     - name: Git config NAME
       run: git config user.name "$GITHUB_ACTOR"
       
