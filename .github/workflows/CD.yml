@@ -10,20 +10,20 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Git switch to master branch
-      run: git switch -c "$GITHUB_REF"
+    - name: Git switch
+      run: git switch -c $GITHUB_REF
     
     - name: Git config NAME
-      run: git config user.name "$GITHUB_ACTOR"
+      run: git config user.name $GITHUB_ACTOR
       
     - name: Git config EMAIL
-      run: git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      run: git config user.email $GITHUB_ACTOR@users.noreply.github.com
     
     - name: NPM version patch
       run: npm version patch
     
     - name: Git push
-      run: git push --set-upstream origin "$GITHUB_REF"
+      run: git push --set-upstream origin $GITHUB_REF
      
     - name: Restore packages
       run: npm install
