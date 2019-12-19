@@ -19,7 +19,7 @@ export class DIYIoTlockApp {
     }
 
     public setFaceConfig(url: string, key: string): void {
-        SecretService.Face.Url = url;
+        SecretService.Face.Url = `${url}/face/v1.0`;
         SecretService.Face.Key = key;
     }
 }
