@@ -18,6 +18,9 @@ jobs:
     
     - name: NPM version patch
       run: npm version patch
+    
+    - name: Git push
+      run: git push
      
     - name: Restore packages
       run: npm install
