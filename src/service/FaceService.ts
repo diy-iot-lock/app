@@ -43,12 +43,12 @@ export default class FaceService {
             faceRectangle.left,
             faceRectangle.top,
             faceRectangle.width,
-            faceRectangle.height
+            faceRectangle.height,
         ].join(",");
 
         const query = [
             `detectionModel=${DetectionModel.V2}`,
-            `targetFace=${coordinates}`
+            `targetFace=${coordinates}`,
         ].join("&");
 
         return await this.client.callApiAsync(

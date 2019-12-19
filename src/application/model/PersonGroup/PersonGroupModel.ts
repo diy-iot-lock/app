@@ -9,12 +9,12 @@ export enum DetectionModel {
 }
 
 export class PersonGroupModel {
-    constructor() {
-        this.recognitionModel = RecognitionModel.V2;
-    }
-
     public personGroupId!: string;
     public name!: string;
     public userData!: string;
     public recognitionModel!: RecognitionModel;
+
+    constructor() {
+        this.recognitionModel = RecognitionModel.V2;
+    }
 }

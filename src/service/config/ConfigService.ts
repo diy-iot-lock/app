@@ -9,11 +9,11 @@ export default class ConfigService {
         RecognitionModel: RecognitionModel.V2,
         DetectionModel: DetectionModel.V1,
         Person: {
-            FacesMax: 248
+            FacesMax: 248,
         },
         Group: {
             Inhabitants: "inhabitants",
-            Id: ""
+            Id: "",
         },
     };
 

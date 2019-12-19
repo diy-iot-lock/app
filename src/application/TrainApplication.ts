@@ -32,7 +32,7 @@ export default class TrainApplication extends ApplicationBase {
             ConfigService.Face.Group.Id,
             personId,
             url,
-            rectangle
+            rectangle,
         );
 
         this.log.info("Submitting model train request.");
