@@ -3,20 +3,23 @@ name: CD
 on: [push]
 
 jobs:
-  build:
+  publish:
 
     runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
-      
-    - name: Patch version
-      run: npm version patch
-      
+     
     - name: Restore packages
       run: npm install
       
     - name: Build library
       run: npm run build
+
+    - name: NPM config
+      run: npm config set //npm.pkg.github.com/:_authToken=$TOKEN
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    
+    - name: NPM publish
+      run: npm publish
