@@ -1,19 +1,27 @@
 # DIY IoT lock - application
 
-
-Step 1: Use `publishConfig` option in your package.json
-```json
-"publishConfig": { "registry": "https://npm.pkg.github.com/" }
+## Install
+```
+npm i -s @diy-iot-lock/app
 ```
 
+## Usage
+```typescript
+// import library
+import {DIYIoTlockApp} from "@diy-iot-lock/app";
 
-Step 2: Authenticate
-```text
-$ npm login --registry=https://npm.pkg.github.com/
-```
+// create an instance of DIYIoTlockApp
+const app = new DIYIoTlockApp();
 
+// configure Azure Cognitive Services Face API
+const faceUrl = "https://centralus.api.cognitive.microsoft.com/";
+const faceKey = "<your face api key>";
+app.setFaceConfig(faceUrl, faceKey);
 
-Step 3: Publish
-```text
-$ npm publish
+// configure Azure Blob Storage
+const blobName = "<your azure storage account name>";
+const blobKey  = "<your azure storage account key>";
+app.setBlobConfig(blobName, blobKey);
+
+// now you can start using the library
 ```
