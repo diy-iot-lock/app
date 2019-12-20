@@ -23,17 +23,20 @@ const blobName = "<your azure storage account name>";
 const blobKey  = "<your azure storage account key>";
 app.setBlobConfig(blobName, blobKey);
 
+// initialize app
+await app.initializeAsync();
+
 // now you can start using the library
 ```
 
 ### Training
 ```typescript
-app.train.addPersonAsync(person: PersonModel): Promise<PersonModel>
-app.train.addPersonFaceAsync(personId: string, photo: Readable, rectangle: RectangleModel): Promise<void>
+await app.train.addPersonAsync(person: PersonModel): Promise<PersonModel>
+await app.train.addPersonFaceAsync(personId: string, photo: Readable, rectangle: RectangleModel): Promise<void>
 ```
 
 ### Predicting
 ```typescript
-app.predict.detectFacesAsync(photo: Readable): Promise<DetectFaceModel[]>
-app.predict.identifyFacesAsync(photo: Readable): Promise<IdentifyModel[]>
+await app.predict.detectFacesAsync(photo: Readable): Promise<DetectFaceModel[]>
+await app.predict.identifyFacesAsync(photo: Readable): Promise<IdentifyModel[]>
 ```

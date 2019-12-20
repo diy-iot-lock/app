@@ -16,22 +16,22 @@ export class ApplicationBase {
         this.log = log;
     }
 
-    public async Initialize(): Promise<void> {
+    public async initializeAsync(): Promise<void> {
         this.log.info("Application initialization started.");
 
-        await this.initializeBlob();
-        await this.initializeFace();
+        await this.initializeBlobAsync();
+        await this.initializeFaceAsync();
 
         this.log.info("Application initialization finished.");
     }
 
-    private async initializeBlob(): Promise<void> {
+    private async initializeBlobAsync(): Promise<void> {
         this.log.info("Blob initialization started.");
         await BlobService.createContainerIfNotExistsAsync();
         this.log.info("Blob initialization finished.");
     }
 
-    private async initializeFace(): Promise<void> {
+    private async initializeFaceAsync(): Promise<void> {
         this.log.info("Getting list of all groups.");
         const groups = await FaceService.listPersonGroupsAsync();
 

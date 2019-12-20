@@ -16,16 +16,18 @@ function getClientContainer(): ContainerClient {
 
 export default class BlobService {
     public static async createContainerIfNotExistsAsync(): Promise<void> {
-        const isContainerExists = await this.clientContainer.exists();
+        const clientContainer = getClientContainer();
+
+        const isContainerExists = await clientContainer.exists();
         if (!isContainerExists) {
-            await this.clientContainer.create({
+            await clientContainer.create({
                 access: "blob",
             });
         }
 
-        const isPubliclyAccessible = (await this.clientContainer.getAccessPolicy()).blobPublicAccess;
+        const isPubliclyAccessible = (await clientContainer.getAccessPolicy()).blobPublicAccess;
         if (!isPubliclyAccessible) {
-            await this.clientContainer.setAccessPolicy("blob");
+            await clientContainer.setAccessPolicy("blob");
         }
     }
 
@@ -37,11 +39,26 @@ export default class BlobService {
             uniqueId = "0" + uniqueId;
         }
 
-        const clientBlob = this.clientContainer.getBlockBlobClient(uniqueId);
+        const clientContainer = getClientContainer();
+
+        const clientBlob = clientContainer.getBlockBlobClient(uniqueId);
         await clientBlob.uploadStream(content);
 
         return clientBlob.url;
     }
 
-    private static clientContainer: ContainerClient = getClientContainer();
+    private static _clientContainer: ContainerClient;
+
+    private static getClientContainer() {
+        if (!!this._clientContainer) {
+            const sharedKeyCredential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
+            const client = new BlobServiceClient(
+                `https://${ConfigService.Blob.Name}.blob.core.windows.net`,
+                sharedKeyCredential,
+            );
+
+            this._clientContainer = client.getContainerClient(ConfigService.Blob.Container);
+        }
+        return this._clientContainer;
+    };
 }

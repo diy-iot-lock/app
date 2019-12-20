@@ -13,6 +13,11 @@ export class DIYIoTlockApp {
         this.predict = new PredictApplication(log);
     }
 
+    public async initializeAsync() {
+        await this.train.initializeAsync();
+        await this.predict.initializeAsync();
+    }
+
     public setBlobConfig(name: string, key: string): void {
         SecretService.Blob.Name = name;
         SecretService.Blob.Key = key;
