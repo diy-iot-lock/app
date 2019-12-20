@@ -1,7 +1,11 @@
 {
   "name": "@diy-iot-lock/app",
   "version": "0.0.4",
-  "description": "",
+  "description": "Sample application layer for Azure Cognitive Services Face API.",
+  "author": {
+    "name": "Anton Boyko",
+    "url": "http://boykoant.pro"
+  },
   "main": "lib/DIYIoTlockApp.js",
   "types": "lib/DIYIoTlockApp.d.ts",
   "files": [
@@ -19,7 +23,6 @@
     "type": "git",
     "url": "https://github.com/diy-iot-lock/app.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/diy-iot-lock/app/issues"
