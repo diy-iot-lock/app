@@ -25,3 +25,15 @@ app.setBlobConfig(blobName, blobKey);
 
 // now you can start using the library
 ```
+
+### Training
+```typescript
+app.train.addPersonAsync(person: PersonModel): Promise<PersonModel>
+app.train.addPersonFaceAsync(personId: string, photo: Readable, rectangle: RectangleModel): Promise<void>
+```
+
+### Predicting
+```typescript
+app.predict.detectFacesAsync(photo: Readable): Promise<DetectFaceModel[]>
+app.predict.identifyFacesAsync(photo: Readable): Promise<IdentifyModel[]>
+```
