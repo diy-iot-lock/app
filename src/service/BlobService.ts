@@ -44,10 +44,10 @@ export default class BlobService {
             let url = null;
             let credential = null;
             if (!!ConfigService.Blob.Key) {
-                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net`;
+                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net/`;
                 credential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
             } else if (!!ConfigService.Blob.SAS) {
-                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net${ConfigService.Blob.SAS}`;
+                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net/${ConfigService.Blob.SAS}`;
                 credential = new AnonymousCredential();
             } else {
                 throw "Either Blob.Key or Blob.SAS should be set";
