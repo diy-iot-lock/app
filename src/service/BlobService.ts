@@ -1,7 +1,7 @@
 import ConfigService from "./config/ConfigService";
 import GeneratorService from "./helper/GeneratorService";
 
-import {AnonymousCredential, BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
+import {BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
 import {Readable} from "stream";
 
 export default class BlobService {
@@ -15,7 +15,7 @@ export default class BlobService {
             });
         }
 
-        const isPubliclyAccessible = (await clientContainer.getAccessPolicy()).blobPublicAccess;
+        const isPubliclyAccessible = (await clientContainer.getProperties()).blobPublicAccess;
         if (!isPubliclyAccessible) {
             await clientContainer.setAccessPolicy("blob");
         }
@@ -37,23 +37,25 @@ export default class BlobService {
         return clientBlob.url;
     }
 
-    private static _clientContainer: ContainerClient;
+    public static reset() {
+        this._clientContainer = undefined;
+    }
+
+    private static _clientContainer?: ContainerClient;
 
     private static getClientContainer() {
         if (!this._clientContainer) {
-            let url = null;
-            let credential = null;
+            let client = null;
+            let url = `https://${ConfigService.Blob.Name}.blob.core.windows.net/`;
             if (!!ConfigService.Blob.Key) {
-                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net/`;
-                credential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
+                const credential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
+                client = new BlobServiceClient(url, credential);
             } else if (!!ConfigService.Blob.SAS) {
-                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net/${ConfigService.Blob.SAS}`;
-                credential = new AnonymousCredential();
+                url += ConfigService.Blob.SAS;
+                client = new BlobServiceClient(url);
             } else {
-                throw "Either Blob.Key or Blob.SAS should be set";
+                throw new Error("Either Blob.Key or Blob.SAS should be set");
             }
-
-            const client = new BlobServiceClient(url, credential);
 
             this._clientContainer = client.getContainerClient(ConfigService.Blob.Container);
         }

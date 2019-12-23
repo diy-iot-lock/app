@@ -1,5 +1,5 @@
 import SecretService from "./SecretService";
-
+import BlobService from "../BlobService";
 import {DetectionModel, RecognitionModel} from "../../application/model/PersonGroup/PersonGroupModel";
 
 export default class ConfigService {
@@ -33,5 +33,6 @@ export default class ConfigService {
         this.Blob.Name = SecretService.Blob.Name;
         this.Blob.Key = SecretService.Blob.Key;
         this.Blob.SAS = SecretService.Blob.SAS;
+        BlobService.reset();
     }
 }
