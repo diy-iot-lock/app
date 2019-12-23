@@ -10,27 +10,27 @@ import {IdentifyModel} from "../application/model/Identify/IdentifyModel";
 
 export default class FaceService {
     public static async listPersonGroupsAsync(): Promise<PersonGroupModel[]> {
-        return await this.client.callApiAsync(`/persongroups`);
+        return await this.getClient().callApiAsync(`/persongroups`);
     }
 
     public static async createPersonGroupAsync(groupId: string, model: PersonGroupModel): Promise<void> {
-        await this.client.callApiAsync(`/persongroups/${groupId}`, HttpMethod.PUT, model);
+        await this.getClient().callApiAsync(`/persongroups/${groupId}`, HttpMethod.PUT, model);
     }
 
     public static async trainPersonGroupAsync(groupId: string): Promise<void> {
-        await this.client.callApiAsync(`/persongroups/${groupId}/train`, HttpMethod.POST);
+        await this.getClient().callApiAsync(`/persongroups/${groupId}/train`, HttpMethod.POST);
     }
 
     public static async checkPersonGroupTrainingStatusAsync(groupId: string): Promise<PersonGroupTrainingStatusModel> {
-        return await this.client.callApiAsync(`/persongroups/${groupId}/training`);
+        return await this.getClient().callApiAsync(`/persongroups/${groupId}/training`);
     }
 
     public static async listPersonsAsync(groupId: string): Promise<PersonModel[]> {
-        return await this.client.callApiAsync(`/persongroups/${groupId}/persons`);
+        return await this.getClient().callApiAsync(`/persongroups/${groupId}/persons`);
     }
 
     public static async createPersonAsync(groupId: string, model: PersonModel): Promise<PersonModel> {
-        const res = await this.client.callApiAsync(`/persongroups/${groupId}/persons`, HttpMethod.POST, model);
+        const res = await this.getClient().callApiAsync(`/persongroups/${groupId}/persons`, HttpMethod.POST, model);
 
         model.personId = res.personId;
         delete model.persistedFaceIds;
@@ -51,7 +51,7 @@ export default class FaceService {
             `targetFace=${coordinates}`,
         ].join("&");
 
-        return await this.client.callApiAsync(
+        return await this.getClient().callApiAsync(
             `/persongroups/${groupId}/persons/${personId}/persistedFaces?${query}`,
             HttpMethod.POST,
             { url });
@@ -84,20 +84,26 @@ export default class FaceService {
             `detectionModel=${ConfigService.Face.DetectionModel}`,
         ].join("&");
 
-        return await this.client.callApiAsync(
+        return await this.getClient().callApiAsync(
             `/detect?${query}`,
             HttpMethod.POST,
             { url });
     }
 
     public static async identifyFacesAsync(faceIds: string[], personGroupId: string): Promise<IdentifyModel[]> {
-        return await this.client.callApiAsync(
+        return await this.getClient().callApiAsync(
             "/identify",
             HttpMethod.POST,
             { faceIds, personGroupId });
     }
 
-    private static client = new HttpService(ConfigService.Face.Url, {
-        "Ocp-Apim-Subscription-Key": ConfigService.Face.Key,
-    });
+    private static _client: HttpService;
+    private static getClient() {
+        if (!this._client) {
+            this._client = new HttpService(ConfigService.Face.Url, {
+                    "Ocp-Apim-Subscription-Key": ConfigService.Face.Key,
+                });
+        }
+        return this._client;
+    }
 }
