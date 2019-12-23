@@ -7,26 +7,31 @@ npm i -s @diy-iot-lock/app
 
 ## Usage
 ```typescript
-// import library
+// 1. import library
 import {DIYIoTlockApp} from "@diy-iot-lock/app";
 
-// create an instance of DIYIoTlockApp
+// 2. create an instance of DIYIoTlockApp
 const app = new DIYIoTlockApp();
 
-// configure Azure Cognitive Services Face API
+// 3. configure Azure Cognitive Services Face API
 const faceUrl = "https://centralus.api.cognitive.microsoft.com/";
 const faceKey = "<your face api key>";
 app.setFaceConfig(faceUrl, faceKey);
 
-// configure Azure Blob Storage
+// 4.a. configure Azure Blob Storage with Key
 const blobName = "<your azure storage account name>";
 const blobKey  = "<your azure storage account key>";
 app.setBlobConfig(blobName, blobKey);
 
-// initialize app
+// 4.b. configure Azure Blob Storage with SAS
+const blobName = "<your azure storage account name>";
+const blobSAS  = "<your azure storage account SAS>";
+app.setBlobConfigSAS(blobName, blobSAS);
+
+// 5. initialize app
 await app.initializeAsync();
 
-// now you can start using the library
+// 6. now you can start using the library
 ```
 
 ### Training

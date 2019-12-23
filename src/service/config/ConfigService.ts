@@ -20,6 +20,7 @@ export default class ConfigService {
     public static Blob = {
         Name: SecretService.Blob.Name,
         Key: SecretService.Blob.Key,
+        SAS: SecretService.Blob.SAS,
         Container: "faces",
     };
 
@@ -31,5 +32,6 @@ export default class ConfigService {
     public static initializeBlob() {
         this.Blob.Name = SecretService.Blob.Name;
         this.Blob.Key = SecretService.Blob.Key;
+        this.Blob.SAS = SecretService.Blob.SAS;
     }
 }

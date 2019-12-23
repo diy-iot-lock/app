@@ -1,7 +1,7 @@
 import ConfigService from "./config/ConfigService";
 import GeneratorService from "./helper/GeneratorService";
 
-import {BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
+import {AnonymousCredential, BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
 import {Readable} from "stream";
 
 export default class BlobService {
@@ -41,11 +41,19 @@ export default class BlobService {
 
     private static getClientContainer() {
         if (!this._clientContainer) {
-            const sharedKeyCredential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
-            const client = new BlobServiceClient(
-                `https://${ConfigService.Blob.Name}.blob.core.windows.net`,
-                sharedKeyCredential,
-            );
+            let url = null;
+            let credential = null;
+            if (!!ConfigService.Blob.Key) {
+                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net`;
+                credential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
+            } else if (!!ConfigService.Blob.SAS) {
+                url = `https://${ConfigService.Blob.Name}.blob.core.windows.net${ConfigService.Blob.SAS}`;
+                credential = new AnonymousCredential();
+            } else {
+                throw "Either Blob.Key or Blob.SAS should be set";
+            }
+
+            const client = new BlobServiceClient(url, credential);
 
             this._clientContainer = client.getContainerClient(ConfigService.Blob.Container);
         }

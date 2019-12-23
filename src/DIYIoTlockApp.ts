@@ -25,6 +25,12 @@ export class DIYIoTlockApp {
         ConfigService.initializeBlob();
     }
 
+    public setBlobConfigSAS(name: string, sas: string): void {
+        SecretService.Blob.Name = name;
+        SecretService.Blob.SAS = sas;
+        ConfigService.initializeBlob();
+    }
+
     public setFaceConfig(url: string, key: string): void {
         SecretService.Face.Url = `${url}/face/v1.0`;
         SecretService.Face.Key = key;

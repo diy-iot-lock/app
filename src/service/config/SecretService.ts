@@ -7,5 +7,6 @@ export default class SecretService {
     public static Blob = {
         Name: "",
         Key: "",
+        SAS: ""
     };
 }
