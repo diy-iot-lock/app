@@ -40,7 +40,7 @@ export default class BlobService {
     private static _clientContainer: ContainerClient;
 
     private static getClientContainer() {
-        if (!!this._clientContainer) {
+        if (!this._clientContainer) {
             const sharedKeyCredential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
             const client = new BlobServiceClient(
                 `https://${ConfigService.Blob.Name}.blob.core.windows.net`,
