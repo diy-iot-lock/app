@@ -22,4 +22,14 @@ export default class ConfigService {
         Key: SecretService.Blob.Key,
         Container: "faces",
     };
+
+    public static initializeFace() {
+        this.Face.Url = SecretService.Face.Url;
+        this.Face.Key = SecretService.Face.Key;
+    }
+
+    public static initializeBlob() {
+        this.Blob.Name = SecretService.Blob.Name;
+        this.Blob.Key = SecretService.Blob.Key;
+    }
 }

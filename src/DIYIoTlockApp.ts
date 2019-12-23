@@ -3,6 +3,7 @@ import TrainApplication from "./application/TrainApplication";
 import PredictApplication from "./application/PredictApplication";
 import SecretService from "./service/config/SecretService";
 import EmptyLogService from "./service/log/EmptyLogService";
+import ConfigService from "./service/config/ConfigService";
 
 export class DIYIoTlockApp {
     public readonly train: TrainApplication;
@@ -21,10 +22,12 @@ export class DIYIoTlockApp {
     public setBlobConfig(name: string, key: string): void {
         SecretService.Blob.Name = name;
         SecretService.Blob.Key = key;
+        ConfigService.initializeBlob();
     }
 
     public setFaceConfig(url: string, key: string): void {
         SecretService.Face.Url = `${url}/face/v1.0`;
         SecretService.Face.Key = key;
+        ConfigService.initializeFace();
     }
 }

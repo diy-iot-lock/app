@@ -4,19 +4,9 @@ import GeneratorService from "./helper/GeneratorService";
 import {BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
 import {Readable} from "stream";
 
-function getClientContainer(): ContainerClient {
-    const sharedKeyCredential = new StorageSharedKeyCredential(ConfigService.Blob.Name, ConfigService.Blob.Key);
-    const client = new BlobServiceClient(
-        `https://${ConfigService.Blob.Name}.blob.core.windows.net`,
-        sharedKeyCredential,
-    );
-
-    return client.getContainerClient(ConfigService.Blob.Container);
-}
-
 export default class BlobService {
     public static async createContainerIfNotExistsAsync(): Promise<void> {
-        const clientContainer = getClientContainer();
+        const clientContainer = this.getClientContainer();
 
         const isContainerExists = await clientContainer.exists();
         if (!isContainerExists) {
@@ -39,7 +29,7 @@ export default class BlobService {
             uniqueId = "0" + uniqueId;
         }
 
-        const clientContainer = getClientContainer();
+        const clientContainer = this.getClientContainer();
 
         const clientBlob = clientContainer.getBlockBlobClient(uniqueId);
         await clientBlob.uploadStream(content);
