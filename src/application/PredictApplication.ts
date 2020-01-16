@@ -12,7 +12,7 @@ export default class PredictApplication extends ApplicationBase {
         super(log);
     }
 
-    public async detectFacesAsync(photo: Readable): Promise<DetectFaceModel[]> {
+    public async detectFacesAsync(photo: Readable | string): Promise<DetectFaceModel[]> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 
@@ -20,7 +20,7 @@ export default class PredictApplication extends ApplicationBase {
         return await FaceService.detectFacesAsync(url);
     }
 
-    public async identifyFacesAsync(photo: Readable): Promise<IdentifyModel[]> {
+    public async identifyFacesAsync(photo: Readable | string): Promise<IdentifyModel[]> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 

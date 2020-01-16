@@ -21,7 +21,7 @@ export default class BlobService {
         }
     }
 
-    public static async uploadBlobAsync(content: Readable): Promise<string> {
+    public static async uploadBlobAsync(content: Readable | string): Promise<string> {
         // TODO: refactoring needed
         const size = 10;
         let uniqueId = GeneratorService.getUniqieNumber(size).toString();
@@ -32,7 +32,12 @@ export default class BlobService {
         const clientContainer = this.getClientContainer();
 
         const clientBlob = clientContainer.getBlockBlobClient(uniqueId);
-        await clientBlob.uploadStream(content);
+
+        if (typeof content === "string") {
+            await clientBlob.upload(content, content.length);
+        } else {
+            await clientBlob.uploadStream(content);
+        }
 
         return clientBlob.url;
     }
