@@ -12,6 +12,8 @@ import {PersonModel} from "./model/Person/PersonModel";
 import BlobService from "../service/BlobService";
 import {RectangleModel} from "./model/Face/Base/RectangleModel";
 
+import {Readable} from "stream";
+
 export default class TrainApplication extends ApplicationBase {
     constructor(log: ILogService) {
         super(log);
@@ -22,7 +24,7 @@ export default class TrainApplication extends ApplicationBase {
         return await FaceService.createPersonAsync(ConfigService.Face.Group.Id, person);
     }
 
-    public async addPersonFaceAsync(personId: string, photo: Blob, rectangle: RectangleModel): Promise<void> {
+    public async addPersonFaceAsync(personId: string, photo: Readable | Blob | ArrayBuffer, rectangle: RectangleModel): Promise<void> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 

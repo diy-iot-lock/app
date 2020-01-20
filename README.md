@@ -38,13 +38,13 @@ await app.initializeAsync();
 ### Training
 ```typescript
 await app.train.addPersonAsync(person: PersonModel): Promise<PersonModel>
-await app.train.addPersonFaceAsync(personId: string, photo: Blob, rectangle: RectangleModel): Promise<void>
+await app.train.addPersonFaceAsync(personId: string, photo: Readable | Blob | ArrayBuffer, rectangle: RectangleModel): Promise<void>
 ```
 
 ### Predicting
 ```typescript
-await app.predict.detectFacesAsync(photo: Blob): Promise<DetectFaceModel[]>
-await app.predict.identifyFacesAsync(photo: Blob): Promise<IdentifyModel[]>
+await app.predict.detectFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<DetectFaceModel[]>
+await app.predict.identifyFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<IdentifyModel[]>
 ```
 
 ## Known issues
