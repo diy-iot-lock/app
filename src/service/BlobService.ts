@@ -2,7 +2,6 @@ import ConfigService from "./config/ConfigService";
 import GeneratorService from "./helper/GeneratorService";
 
 import {BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
-import {Readable} from "stream";
 
 export default class BlobService {
     public static async createContainerIfNotExistsAsync(): Promise<void> {
@@ -21,7 +20,10 @@ export default class BlobService {
         }
     }
 
-    public static async uploadBlobAsync(content: Readable | string): Promise<string> {
+    /**
+     * @param   content     Blob.
+     */
+    public static async uploadBlobAsync(content: Blob): Promise<string> {
         // TODO: refactoring needed
         const size = 10;
         let uniqueId = GeneratorService.getUniqieNumber(size).toString();
@@ -30,14 +32,9 @@ export default class BlobService {
         }
 
         const clientContainer = this.getClientContainer();
-
         const clientBlob = clientContainer.getBlockBlobClient(uniqueId);
 
-        if (typeof content === "string") {
-            await clientBlob.upload(content, content.length);
-        } else {
-            await clientBlob.uploadStream(content);
-        }
+        await clientBlob.upload(content, content.size);
 
         return clientBlob.url;
     }

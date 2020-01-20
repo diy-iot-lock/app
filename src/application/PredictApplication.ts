@@ -1,7 +1,6 @@
 import {ApplicationBase} from "./ApplicationBase";
 import {ILogService} from "../interface/ILogService";
 import {DetectFaceModel} from "./model/Face/DetectFaceModel";
-import {Readable} from "stream";
 import BlobService from "../service/BlobService";
 import FaceService from "../service/FaceService";
 import {IdentifyModel} from "./model/Identify/IdentifyModel";
@@ -12,7 +11,7 @@ export default class PredictApplication extends ApplicationBase {
         super(log);
     }
 
-    public async detectFacesAsync(photo: Readable | string): Promise<DetectFaceModel[]> {
+    public async detectFacesAsync(photo: Blob): Promise<DetectFaceModel[]> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 
@@ -20,7 +19,7 @@ export default class PredictApplication extends ApplicationBase {
         return await FaceService.detectFacesAsync(url);
     }
 
-    public async identifyFacesAsync(photo: Readable | string): Promise<IdentifyModel[]> {
+    public async identifyFacesAsync(photo: Blob): Promise<IdentifyModel[]> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 

@@ -9,7 +9,6 @@ import {ILogService} from "../interface/ILogService";
 
 import {PersonGroupTrainingStatus} from "./model/PersonGroup/PersonGroupTrainingStatusModel";
 import {PersonModel} from "./model/Person/PersonModel";
-import {Readable} from "stream";
 import BlobService from "../service/BlobService";
 import {RectangleModel} from "./model/Face/Base/RectangleModel";
 
@@ -23,7 +22,7 @@ export default class TrainApplication extends ApplicationBase {
         return await FaceService.createPersonAsync(ConfigService.Face.Group.Id, person);
     }
 
-    public async addPersonFaceAsync(personId: string, photo: Readable | string, rectangle: RectangleModel): Promise<void> {
+    public async addPersonFaceAsync(personId: string, photo: Blob, rectangle: RectangleModel): Promise<void> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 
