@@ -1,6 +1,6 @@
 {
   "name": "@diy-iot-lock/app",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Sample application layer for Azure Cognitive Services Face API.",
   "author": {
     "name": "Anton Boyko",
