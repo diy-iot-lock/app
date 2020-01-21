@@ -47,6 +47,6 @@ export default class TrainApplication extends ApplicationBase {
             this.log.info("Checking on training status.");
             status = await FaceService.checkPersonGroupTrainingStatusAsync(ConfigService.Face.Group.Id);
         }
-        this.log.info("Model train succeeded.");
+        this.log.info("Model training succeeded.");
     }
 }
