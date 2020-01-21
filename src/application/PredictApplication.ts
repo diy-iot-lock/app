@@ -28,6 +28,12 @@ export default class PredictApplication extends ApplicationBase {
         this.log.info("Detecting faces.");
         const faces = await FaceService.detectFacesAsync(url);
 
+        if (faces.length == 0) {
+            this.log.info("No faces were found.");
+            return [];
+        }
+
+        this.log.info(`${faces.length} faces were found.`);
         const faceIds = faces.map(face => {
             return face.faceId;
         });
