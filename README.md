@@ -35,6 +35,35 @@ await app.initializeAsync();
 // 6. now you can start using the library
 ```
 
+### Logging
+#### Builtin
+By default all logs are disabled. If you want to enable them you can use builtin `console` logger like this:
+```typescript
+// create an instance of builtin console logger
+const log = new ConsoleLogService();
+
+// create an instance of DIYIoTlockApp with builtin console logger 
+const app = new DIYIoTlockApp(log);
+```
+#### Custom
+For custom implementation of logger you can implement your own class based on `ILogService` interface:
+```typescript
+// implement custom logger
+class MyCustomLogger implements ILogService {
+    public error(message: string): any {
+    }
+
+    public info(message: string): any {
+    }
+}
+
+// create an instance of custom logger
+const log = new MyCustomLogger();
+
+// create an instance of DIYIoTlockApp with custom logger 
+const app = new DIYIoTlockApp(log);
+```
+
 ### Training
 ```typescript
 await app.train.addPersonAsync(person: PersonModel): Promise<PersonModel>
