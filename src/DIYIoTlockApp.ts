@@ -5,6 +5,9 @@ import SecretService from "./service/config/SecretService";
 import EmptyLogService from "./service/log/EmptyLogService";
 import ConfigService from "./service/config/ConfigService";
 
+export * from "./interface/ILogService";
+export * from "./service/log/ConsoleLogService";
+
 export class DIYIoTlockApp {
     public readonly train: TrainApplication;
     public readonly predict: PredictApplication;
