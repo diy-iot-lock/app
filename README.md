@@ -73,7 +73,7 @@ await app.train.addPersonFaceAsync(personId: string, photo: Readable | Blob | Ar
 ### Predicting
 ```typescript
 await app.predict.detectFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<DetectFaceModel[]>
-await app.predict.identifyFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<IdentifyModel[]>
+await app.predict.identifyFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<IdentifyExtendedModel[]>
 ```
 
 ## Known issues

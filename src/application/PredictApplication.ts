@@ -3,10 +3,9 @@ import {ILogService} from "../interface/ILogService";
 import {DetectFaceModel} from "./model/Face/DetectFaceModel";
 import BlobService from "../service/BlobService";
 import FaceService from "../service/FaceService";
-import {IdentifyModel} from "./model/Identify/IdentifyModel";
 import ConfigService from "../service/config/ConfigService";
-
 import {Readable} from "stream";
+import {IdentifyExtendedModel} from "./model/Identify/IdentifyExtendedModel";
 
 export default class PredictApplication extends ApplicationBase {
     constructor(log: ILogService) {
@@ -21,7 +20,7 @@ export default class PredictApplication extends ApplicationBase {
         return await FaceService.detectFacesAsync(url);
     }
 
-    public async identifyFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<IdentifyModel[]> {
+    public async identifyFacesAsync(photo: Readable | Blob | ArrayBuffer): Promise<IdentifyExtendedModel[]> {
         this.log.info("Uploading photo.");
         const url = await BlobService.uploadBlobAsync(photo);
 
@@ -39,6 +38,22 @@ export default class PredictApplication extends ApplicationBase {
         });
 
         this.log.info("Identifying faces.");
-        return await FaceService.identifyFacesAsync(faceIds, ConfigService.Face.Group.Id);
+        const persons = await FaceService.identifyFacesAsync(faceIds, ConfigService.Face.Group.Id);
+
+        return faces.map((face) => {
+            const identifyEx = new IdentifyExtendedModel(face);
+
+            const candidates = persons.filter((person) => {
+                return person.faceId == identifyEx.faceId;
+            }).map((person) => {
+                return person.candidates;
+            }).reduce((result, current) => {
+                return result.concat(current);
+            }, []);
+
+            identifyEx.candidates = candidates;
+
+            return identifyEx;
+        });
     }
 }
