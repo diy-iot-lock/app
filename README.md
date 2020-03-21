@@ -1,4 +1,7 @@
 # DIY IoT lock - application
+
+![Node.js CI](https://github.com/diy-iot-lock/app/workflows/Node.js%20CI/badge.svg?branch=master)
+
 This package represents application layer for "smart lock" application. It contains all application logic that will be reused in packages that are responsible for UI.
 
 ## Installing
