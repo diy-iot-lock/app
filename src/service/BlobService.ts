@@ -3,6 +3,7 @@ import GeneratorService from "./helper/GeneratorService";
 
 import {BlobServiceClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
 import {Readable} from "stream";
+import UtilService from "./helper/UtilService";
 
 export default class BlobService {
     public static async createContainerIfNotExistsAsync(): Promise<void> {
@@ -35,14 +36,22 @@ export default class BlobService {
         const clientContainer = this.getClientContainer();
         const clientBlob = clientContainer.getBlockBlobClient(uniqueId);
 
-        if (content instanceof ArrayBuffer) {
-            await clientBlob.upload(content, content.byteLength);
-        } else if (content instanceof Readable) {
-            await clientBlob.uploadStream(content);
-        } else if (content instanceof Blob) {
-            await clientBlob.upload(content, content.size);
+        if (UtilService.IsNode()) {
+            if (content instanceof ArrayBuffer) {
+                await clientBlob.upload(content, content.byteLength);
+            } else if (content instanceof Readable) {
+                await clientBlob.uploadStream(content);
+            } else {
+                throw new Error("Content should be either Readable or ArrayBuffer");
+            }
         } else {
-            throw new Error("Content should be either Readable or Blob");
+            if (content instanceof ArrayBuffer) {
+                await clientBlob.upload(content, content.byteLength);
+            } else if (content instanceof Blob) {
+                await clientBlob.upload(content, content.size);
+            } else {
+                throw new Error("Content should be either ArrayBuffer or Blob");
+            }
         }
 
         return clientBlob.url;
