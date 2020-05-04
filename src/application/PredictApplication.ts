@@ -43,15 +43,13 @@ export default class PredictApplication extends ApplicationBase {
         return faces.map((face) => {
             const identifyEx = new IdentifyExtendedModel(face);
 
-            const candidates = persons.filter((person) => {
+            identifyEx.candidates = persons.filter((person) => {
                 return person.faceId == identifyEx.faceId;
             }).map((person) => {
                 return person.candidates;
             }).reduce((result, current) => {
                 return result.concat(current);
             }, []);
-
-            identifyEx.candidates = candidates;
 
             return identifyEx;
         });
